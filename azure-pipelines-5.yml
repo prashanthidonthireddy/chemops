@@ -7,12 +7,12 @@ trigger:
 - main  # Branch to trigger the pipeline
 
 pool:
-  name: 'Your Agent Pool Name'  # Specify the name of your agent pool here
+  name: 'PRASHANTHIREDDY'  # Specify the name of your agent pool here
 
 steps:
 - task: UsePythonVersion@0
   inputs:
-    versionSpec: '3.x'  # Specify your Python version
+    versionSpec: '3.7'  # Specify your Python version
     addToPath: true
 
 - checkout: self
