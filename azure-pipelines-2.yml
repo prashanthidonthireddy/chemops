@@ -1,0 +1,35 @@
+trigger:
+- main  # Branch to trigger the pipeline
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.12'  # Specify your Python version
+    addToPath: true
+
+- checkout: self
+
+- script: |
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+  displayName: 'Install dependencies'
+
+- script: |
+    python manage.py makemigrations
+    python manage.py migrate
+  displayName: 'Run database migrations'
+
+- script: |
+    python manage.py test
+  displayName: 'Run tests'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    azureSubscription: 'Azure subscription 1'
+    appType: 'webApp'
+    WebAppName: 'devopschemops'
+    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+  displayName: 'Deploy to Azure Web App'
