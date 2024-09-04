@@ -29,4 +29,15 @@ steps:
 - script: |
     python -m flake8 .
   displayName: 'Run linter'
+variables:
+  GITHUB_TOKEN: $(GITHUB_TOKEN)
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.7'
+    addToPath: true
+    installationPath: $(Agent.ToolsDirectory)/python
+  env:
+    GITHUB_TOKEN: $(GITHUB_TOKEN)
 
